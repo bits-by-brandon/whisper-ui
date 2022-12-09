@@ -1,3 +1,32 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:cca7e3fd9db2d456e62af572f16f3c3de1d70422a25d4879a69ada5ff3c5424d
-size 843
+{
+  "name": "whisper-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1.1.0"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "next",
+    "@sveltejs/kit": "next",
+    "@tauri-apps/cli": "^1.1.0",
+    "@types/execa": "^2.0.0",
+    "execa": "^6.1.0",
+    "prettier": "^2.8.1",
+    "prettier-plugin-svelte": "^2.8.1",
+    "svelte": "^3.49.0",
+    "svelte-check": "^2.7.1",
+    "svelte-preprocess": "^4.10.6",
+    "tslib": "^2.3.1",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.0"
+  }
+}

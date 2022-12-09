@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:b4fd952450d294e1c775a6da4bb688746a5f8f1128162159cb4093329a4f8987
-size 671
+#![cfg_attr(
+    all(not(debug_assertions), target_os = "windows"),
+    windows_subsystem = "windows"
+)]
+
+// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+#[tauri::command]
+fn greet(name: &str) -> String {
+    format!("Hello, {}! You've been greeted from Rust!", name)
+}
+
+#[tauri::command]
+fn transcribe(name: &str) -> String {
+    format!("Hello, {}! I love you!", name)
+}
+
+fn main() {
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![transcribe])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
+}
