@@ -1,3 +1,20 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:be1d487d80737cac2f1188ba6fd329d6df53ef10750ca0ec9d4af3a29a22509a
-size 443
+# stream.wasm
+
+Real-time transcription in the browser using WebAssembly
+
+Online demo: https://whisper.ggerganov.com/stream/
+
+## Build instructions
+
+```bash
+# build using Emscripten (v3.1.2)
+git clone https://github.com/ggerganov/whisper.cpp
+cd whisper.cpp
+mkdir build-em && cd build-em
+emcmake cmake ..
+make -j
+
+# copy the produced page to your HTTP path
+cp bin/stream.wasm/*       /path/to/html/
+cp bin/libstream.worker.js /path/to/html/
+```

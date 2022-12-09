@@ -1,3 +1,23 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:297c3037c11c2d963ee6b6179b06db504283186bb54298fbcb602d9a31b168b0
-size 585
+# command.wasm
+
+This is a basic Voice Assistant example that accepts voice commands from the microphone.
+It runs in fully in the browser via WebAseembly.
+
+Online demo: https://whisper.ggerganov.com/command/
+
+Terminal version: [examples/command](/examples/command)
+
+## Build instructions
+
+```bash
+# build using Emscripten (v3.1.2)
+git clone https://github.com/ggerganov/whisper.cpp
+cd whisper.cpp
+mkdir build-em && cd build-em
+emcmake cmake ..
+make -j
+
+# copy the produced page to your HTTP path
+cp bin/command.wasm/*       /path/to/html/
+cp bin/libcommand.worker.js /path/to/html/
+```

@@ -1,3 +1,3 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8dba25ca884a14a194672836227d5149ff50acc8cb864cf5ad2b5e66fccd495f
-size 96
+[submodule "bindings/ios"]
+	path = bindings/ios
+	url = https://github.com/ggerganov/whisper.spm

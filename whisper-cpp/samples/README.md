@@ -1,3 +1,6 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:9a790f7c4375fb71f7d55e5e004883f1e84c376c70ee298b5547a518747611fe
-size 367
+# Audio samples
+
+This folder contains various audio files used for testing.
+If you want to quickly get some more samples, simply run `make samples`. This will download several public audio files and convert them to appropriate 16-bit WAV format using `ffmpeg`
+
+https://github.com/ggerganov/whisper.cpp/blob/a09ce6e8899198015729ffc49ae10f67370906b1/Makefile#L104-L123

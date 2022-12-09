@@ -1,3 +1,8 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:878c2459a2844c172f98bd64b8d72695893e16a283e031351c3ec4e305577370
-size 447
+# Svelte-Kit + Vite
+
+This template should help get you started developing with Tauri and Svelte-Kit in Vite.
+
+## Recommended IDE Setup
+
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
+

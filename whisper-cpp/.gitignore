@@ -1,3 +1,25 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:4c67dbdbf66d7a1b05226bc15c5abffb8b5afc14a9b0269d88c98c60a727068a
-size 409
+*.o
+.cache/
+.vs/
+.vscode/
+.DS_Store
+
+build/
+build-em/
+build-debug/
+build-release/
+build-sanitize-addr/
+build-sanitize-thread/
+
+main
+stream
+command
+bench
+sync.sh
+libwhisper.so
+compile_commands.json
+
+examples/arm_neon.h
+examples/whisper.objc/whisper.objc.xcodeproj/xcshareddata
+examples/whisper.objc/whisper.objc.xcodeproj/xcuserdata/
+examples/whisper.objc/whisper.objc.xcodeproj/project.xcworkspace/xcuserdata
