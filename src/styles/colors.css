@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:f120f465e564a037034579bed6894659440b48fa7f5b5250ba3f57c87325f478
-size 330
+:root {
+  --neutral-100: rgb(20, 20, 20);
+  --neutral-200: rgb(31, 31, 31);
+  --neutral-300: rgb(43, 43, 43);
+  --neutral-400: rgb(56, 56, 56);
+  --neutral-500: rgb(104, 104, 104);
+  --neutral-600: rgb(144, 144, 144);
+  --neutral-700: rgb(188, 188, 188);
+  --neutral-800: rgb(200, 200, 200);
+  --neutral-900: rgb(240, 240, 240);
+}
