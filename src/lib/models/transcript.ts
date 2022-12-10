@@ -4,4 +4,5 @@ export type Transcript = {
 	file: MediaFile;
 	rawOutput: string[];
 	status: 'empty' | 'transcribing' | 'transcribed';
+	duration: number | null;
 };

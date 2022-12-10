@@ -1,3 +1,101 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:8fa797ff32acf6d74a265bb47260665dbbd125169e473039a157176354ea5858
-size 1719
+{
+	"build": {
+		"beforeDevCommand": "npm run dev",
+		"beforeBuildCommand": "npm run build",
+		"devPath": "http://localhost:1420",
+		"distDir": "../build",
+		"withGlobalTauri": false
+	},
+	"package": {
+		"productName": "whisper-ui",
+		"version": "0.0.0"
+	},
+	"tauri": {
+		"allowlist": {
+			"fs": {
+				"readFile": true,
+				"writeFile": true,
+				"scope": ["$RESOURCE/*"]
+			},
+			"os": {
+				"all": true
+			},
+			"path": {
+				"all": true
+			},
+			"dialog": {
+				"open": true,
+				"save": true
+			},
+			"shell": {
+				"sidecar": true,
+				"scope": [
+					{
+						"name": "binaries/whisper",
+						"sidecar": true,
+						"args": true
+					},
+					{
+						"name": "binaries/ffmpeg",
+						"sidecar": true,
+						"args": true
+					},
+					{
+						"name": "binaries/ffprobe",
+						"sidecar": true,
+						"args": true
+					}
+				]
+			}
+		},
+		"bundle": {
+			"active": true,
+			"category": "DeveloperTool",
+			"copyright": "",
+			"deb": {
+				"depends": []
+			},
+			"externalBin": ["binaries/whisper", "binaries/ffmpeg", "binaries/ffprobe"],
+			"resources": ["resources/*"],
+			"icon": [
+				"icons/32x32.png",
+				"icons/128x128.png",
+				"icons/128x128@2x.png",
+				"icons/icon.icns",
+				"icons/icon.ico"
+			],
+			"identifier": "com.tauri.dev",
+			"longDescription": "",
+			"macOS": {
+				"entitlements": null,
+				"exceptionDomain": "",
+				"frameworks": [],
+				"providerShortName": null,
+				"signingIdentity": null
+			},
+			"shortDescription": "",
+			"targets": "all",
+			"windows": {
+				"certificateThumbprint": null,
+				"digestAlgorithm": "sha256",
+				"timestampUrl": ""
+			}
+		},
+		"security": {
+			"csp": null
+		},
+		"updater": {
+			"active": false
+		},
+		"windows": [
+			{
+				"hiddenTitle": true,
+				"fullscreen": false,
+				"height": 600,
+				"resizable": true,
+				"title": "Whisper",
+				"width": 800
+			}
+		]
+	}
+}

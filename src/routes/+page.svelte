@@ -25,7 +25,7 @@
 	main {
 		display: grid;
 		grid-template-rows: auto;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: 240px 1fr 1fr 1fr;
 		grid-template-areas: 'side main main main';
 		height: 100%;
 	}
