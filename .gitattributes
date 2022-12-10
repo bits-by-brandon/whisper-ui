@@ -1,2 +1,2 @@
-src-tauri/binaries/* filter=lfs diff=lfs merge=lfs -text
-src-tauri/resources/* filter=lfs diff=lfs merge=lfs -text
+src-tauri/binaries/** filter=lfs diff=lfs merge=lfs -text
+src-tauri/resources/** filter=lfs diff=lfs merge=lfs -text
