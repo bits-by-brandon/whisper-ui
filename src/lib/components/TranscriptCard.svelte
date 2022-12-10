@@ -3,6 +3,9 @@
 	import { transcripts, active } from '$lib/stores/transcripts';
 	import { secondsToTimecode } from '$lib/util/timecode';
 	import { onMount } from 'svelte';
+	import Circle from 'svelte-icons/fa/FaRegCircle.svelte';
+	import Dot from 'svelte-icons/fa/FaRegDotCircle.svelte';
+	import Check from 'svelte-icons/fa/FaRegCheckCircle.svelte';
 	export let transcript: Transcript;
 
 	$: path = transcript.file.path;
@@ -16,13 +19,27 @@
 </script>
 
 <button class="transcript-card" class:isActive on:click={() => ($transcripts.active = path)}>
-	{transcript.file.fileName}
-	<span class="duration">
-		{#if transcript.duration}
-			{secondsToTimecode(Math.ceil(transcript.duration))}
-		{:else}
-			Determining length...
-		{/if}
+	<span class="name">
+		{transcript.file.fileName}
+	</span>
+	<span class="bottom">
+		<div class="icon">
+			{#if transcript.status === 'empty'}<Circle />{/if}
+			{#if transcript.status === 'transcribing'}<Dot />{/if}
+			{#if transcript.status === 'transcribed'}<Check />{/if}
+		</div>
+
+		<div class="extension">
+			{transcript.file.extension}
+		</div>
+
+		<div class="duration">
+			{#if transcript.duration}
+				{secondsToTimecode(Math.ceil(transcript.duration))}
+			{:else}
+				Determining length...
+			{/if}
+		</div>
 	</span>
 </button>
 
@@ -42,9 +59,22 @@
 		cursor: pointer;
 	}
 
-	.duration {
+	.icon {
+		width: 12px;
+		height: 12px;
+	}
+
+	.bottom {
+		display: flex;
+		flex-direction: row;
+		gap: 8px;
+
 		font-size: 10px;
 		color: var(--neutral-800);
+	}
+
+	.extension {
+		text-transform: uppercase;
 	}
 
 	.isActive {
