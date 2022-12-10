@@ -20,15 +20,14 @@
 
 <button class="transcript-card" class:isActive on:click={() => ($transcripts.active = path)}>
 	<span class="name">
-		{transcript.file.fileName}
-	</span>
-	<span class="bottom">
-		<div class="icon">
+		<span class="icon {transcript.status}">
 			{#if transcript.status === 'empty'}<Circle />{/if}
 			{#if transcript.status === 'transcribing'}<Dot />{/if}
 			{#if transcript.status === 'transcribed'}<Check />{/if}
-		</div>
-
+		</span>
+		{transcript.file.fileName}
+	</span>
+	<span class="bottom">
 		<div class="extension">
 			{transcript.file.extension}
 		</div>
@@ -53,23 +52,39 @@
 		background: none;
 		border-radius: 5px;
 		color: var(--neutral-900);
-		font-size: 12px;
+		font-size: 14px;
 		padding: 4px 8px;
-		gap: 4px;
+		gap: 6px;
 		cursor: pointer;
 	}
 
 	.icon {
+		display: inline-block;
+		transform: translateY(1px);
+		margin-right: 2px;
 		width: 12px;
 		height: 12px;
+	}
+
+	.icon.empty {
+		color: var(--neutral-500);
+	}
+
+	.icon.transcribing {
+		color: var(--neutral-600);
+		animation: glow alternate infinite 700ms ease-in-out;
+	}
+
+	.icon.transcribed {
+		color: var(--green-700);
 	}
 
 	.bottom {
 		display: flex;
 		flex-direction: row;
-		gap: 8px;
+		gap: 6px;
 
-		font-size: 10px;
+		font-size: 9px;
 		color: var(--neutral-800);
 	}
 
@@ -79,5 +94,10 @@
 
 	.isActive {
 		background: var(--neutral-400);
+	}
+
+	@keyframes glow {
+		from {opacity: 0.5;}
+		to {opacity: 1;}
 	}
 </style>

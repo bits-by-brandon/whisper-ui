@@ -23,6 +23,8 @@
 					{/if}
 				</Button>
 			</div>
+		{:else}
+			<h2>{$active.file.fileName}</h2>
 		{/if}
 		{#each $active.rawOutput as line}
 			<Line data={line} />
@@ -38,13 +40,28 @@
 		grid-area: main;
 		display: flex;
 		flex-direction: column;
-		padding: 12px 0;
+		justify-content: flex-start;
+		padding: 0;
 		overflow-y: scroll;
 	}
 
 	.transcribe-ready {
-		text-align: center;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		gap: 12px;
 		width: 300px;
 		margin: auto;
+	}
+
+	h2 {
+		margin: 0;
+		padding: 12px;
+		font-size: 18px;
+		position: sticky;
+		top: 0;
+		background-color: rgba(31, 31, 31, 0.1);
+		backdrop-filter: blur(7px);
+		-webkit-backdrop-filter: blur(7px);
 	}
 </style>
