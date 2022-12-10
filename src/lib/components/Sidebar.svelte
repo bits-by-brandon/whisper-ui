@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { transcripts } from '$lib/stores/transcripts';
 	import { openMediaFile } from '$lib/util/fs';
+	import Plus from 'svelte-icons/fa/FaPlus.svelte'
 	import Button from './Button.svelte';
 	import TranscriptCard from './TranscriptCard.svelte';
 
@@ -12,7 +13,10 @@
 </script>
 
 <div class="sidebar">
-	<Button on:click={handleOpenFile}>Open audio file</Button>
+	<Button on:click={handleOpenFile}>
+		<Plus slot="icon" />
+		Open audio file</Button
+	>
 	<ul class="transcripts">
 		{#each Array.from($transcripts.list) as [_, transcript]}
 			<li><TranscriptCard {transcript} /></li>
@@ -32,5 +36,8 @@
 		padding: 24px 0;
 		margin: 0;
 		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
 	}
 </style>
