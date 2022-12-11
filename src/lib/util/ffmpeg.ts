@@ -1,11 +1,10 @@
 import type { MediaFile } from '$lib/models/mediaFile';
-import { tempdir } from '@tauri-apps/api/os';
 import { Command } from '@tauri-apps/api/shell';
 
-export async function convertTo16bitWav(file: MediaFile): Promise<string> {
-	const tempdirPath = await tempdir();
-	const wavFile = tempdirPath + file.transformedWavFileName;
-
+/**
+ * Creates a 16 bit wav file to be ingested by the whisper model in a temp directory.
+ */
+export async function create16bitWav(file: MediaFile): Promise<void> {
 	const ffmpeg = Command.sidecar('binaries/ffmpeg', [
 		'-y',
 		'-i',
@@ -16,18 +15,18 @@ export async function convertTo16bitWav(file: MediaFile): Promise<string> {
 		'1',
 		'-c:a',
 		'pcm_s16le',
-		wavFile
+		file.transformedPath
 	]);
 
-	return new Promise((resolve, reject) => {
-		ffmpeg.stderr.on('data', (error) => console.error(error));
-		ffmpeg.stdout.on('data', (data) => console.log(data));
-		ffmpeg.on('error', (error) => reject(error));
-		ffmpeg.on('close', () => resolve(wavFile));
-		ffmpeg.spawn();
-	});
+	const child = await ffmpeg.execute();
+	if (child.code !== 0) {
+		throw Error(`Could not transform file ${file.path}`);
+	}
 }
 
+/**
+ * Uses ffprobe to get the duration of the file in seconds or in HH:MM:SS timecode format
+ */
 export async function getDuration(
 	file: MediaFile,
 	format: 'seconds' | 'timecode' = 'seconds'

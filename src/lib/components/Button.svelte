@@ -19,7 +19,7 @@
 		color: var(--neutral-900);
 		font-size: 14px;
 		border-radius: 5px;
-		padding: 6px 8px;
+		padding: 5px 8px;
 		cursor: pointer;
     display: flex;
     flex-direction: row;

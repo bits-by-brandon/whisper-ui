@@ -1,13 +1,14 @@
 export class MediaFile {
 	url: URL;
+	readonly transformedPath: string;
 
-	constructor(path: string) {
+	constructor(path: string, dir: string) {
 		this.url = new URL('file://' + path);
+		this.transformedPath = dir + this.name + '-tmp.wav';
 	}
 
-	get transformedWavFileName() {
-		const [name] = this.fileName.split('.');
-		return name + '-tmp.wav';
+	get name() {
+		return this.fileName.split('.')[0];
 	}
 
 	get extension() {

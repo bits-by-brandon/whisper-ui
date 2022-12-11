@@ -15,7 +15,8 @@
 			"fs": {
 				"readFile": true,
 				"writeFile": true,
-				"scope": ["$RESOURCE/*"]
+				"createDir": true,
+				"scope": ["$RESOURCE/*", "$APPCACHE/*"]
 			},
 			"os": {
 				"all": true

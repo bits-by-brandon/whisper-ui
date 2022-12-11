@@ -6,6 +6,7 @@
 	import Circle from 'svelte-icons/fa/FaRegCircle.svelte';
 	import Dot from 'svelte-icons/fa/FaRegDotCircle.svelte';
 	import Check from 'svelte-icons/fa/FaRegCheckCircle.svelte';
+	import Error from 'svelte-icons/fa/FaExclamationCircle.svelte';
 	export let transcript: Transcript;
 
 	$: path = transcript.file.path;
@@ -24,6 +25,7 @@
 			{#if transcript.status === 'empty'}<Circle />{/if}
 			{#if transcript.status === 'transcribing'}<Dot />{/if}
 			{#if transcript.status === 'transcribed'}<Check />{/if}
+			{#if transcript.status === 'error'}<Error />{/if}
 		</span>
 		{transcript.file.fileName}
 	</span>
@@ -58,6 +60,14 @@
 		cursor: pointer;
 	}
 
+	.transcript-card:hover {
+		background: var(--neutral-400);
+	}
+
+	.isActive {
+		background: var(--neutral-400);
+	}
+
 	.icon {
 		display: inline-block;
 		transform: translateY(1px);
@@ -79,6 +89,10 @@
 		color: var(--green-700);
 	}
 
+	.icon.error {
+		color: var(--yellow-700);
+	}
+
 	.bottom {
 		display: flex;
 		flex-direction: row;
@@ -92,12 +106,12 @@
 		text-transform: uppercase;
 	}
 
-	.isActive {
-		background: var(--neutral-400);
-	}
-
 	@keyframes glow {
-		from {opacity: 0.5;}
-		to {opacity: 1;}
+		from {
+			opacity: 0.5;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 </style>
