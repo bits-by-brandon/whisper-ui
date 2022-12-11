@@ -11,24 +11,24 @@
 
 <div class="content-pane">
 	{#if $active}
-		{@const a = $active}
-		{#if a.status !== 'transcribed'}
-			<div class="transcribe-ready">
-				File ready to be transcribed
-				<Button on:click={() => handleTranscribe(a.file)} disabled={a.status === 'transcribing'}>
-					{#if a.status === 'transcribing'}
-						Transcribing...
-					{:else}
-						Start Transcribing
-					{/if}
-				</Button>
-			</div>
+		{@const { status, file, rawOutput } = $active}
+		{#if status === 'transcribed'}
+			<h2>{file.fileName}</h2>
+			{#each rawOutput as line}
+				<Line data={line} />
+			{/each}
 		{:else}
-			<h2>{$active.file.fileName}</h2>
+			<div class="transcribe-ready">
+				{#if status === 'empty'}
+					File ready to be transcribed
+					<Button on:click={() => handleTranscribe(file)}>Start Transcribing</Button>
+				{:else if status === 'error'}
+					Something went wrong
+				{:else if status === 'transcribing'}
+					Transcribing...
+				{/if}
+			</div>
 		{/if}
-		{#each $active.rawOutput as line}
-			<Line data={line} />
-		{/each}
 	{:else}
 		<div class="transcribe-ready">Select a transcript</div>
 	{/if}
@@ -41,8 +41,10 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
+		flex-grow: 1;
 		padding: 0;
 		overflow-y: scroll;
+		position: relative;
 	}
 
 	.transcribe-ready {
@@ -53,14 +55,12 @@
 		width: 300px;
 		margin: auto;
 	}
-
 	h2 {
-		margin: 0;
+		margin: 24px 0 0;
 		padding: 12px;
-		font-size: 18px;
 		position: sticky;
 		top: 0;
-		background-color: rgba(31, 31, 31, 0.1);
+		background-color: rgba(31, 31, 31, 0.6);
 		backdrop-filter: blur(7px);
 		-webkit-backdrop-filter: blur(7px);
 	}

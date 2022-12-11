@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { transcripts } from '$lib/stores/transcripts';
 	import { openMediaFile } from '$lib/util/fs';
-	import Plus from 'svelte-icons/fa/FaPlus.svelte'
+	import Plus from 'svelte-icons/fa/FaPlus.svelte';
 	import Button from './Button.svelte';
 	import TranscriptCard from './TranscriptCard.svelte';
 

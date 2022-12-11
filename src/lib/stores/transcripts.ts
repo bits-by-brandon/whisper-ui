@@ -1,8 +1,8 @@
-import { writable, derived } from 'svelte/store';
 import type { MediaFile } from '$lib/models/mediaFile';
 import type { Transcript } from '$lib/models/transcript';
+import { writable, derived } from 'svelte/store';
 import { loadTranscription } from '$lib/util/whisper';
-import { convertTo16bitWav, getDuration } from '$lib/util/ffmpeg';
+import { create16bitWav, getDuration } from '$lib/util/ffmpeg';
 
 type Transcripts = {
 	list: Map<string, Transcript>;
@@ -19,9 +19,9 @@ const createTranscripts = () => {
 	return {
 		subscribe,
 		set,
-		createFromFile: (file: MediaFile) => {
+		createFromFile: async (file: MediaFile) => {
 			update((t) => {
-				if (t.list.has(file.path)) throw new Error('Already uploaded this file');
+				if (t.list.has(file.path)) throw new Error('[info] Already uploaded this file');
 				t.list.set(file.path, {
 					file,
 					status: 'empty',
@@ -52,7 +52,6 @@ const createTranscripts = () => {
 
 		calculateDuration: async (file: MediaFile) => {
 			try {
-				console.log('getting length');
 				const duration = await getDuration(file);
 
 				update((t) => {
@@ -66,6 +65,7 @@ const createTranscripts = () => {
 				update((t) => {
 					const found = t.list.get(file.path);
 					if (!found) return t;
+					found.status = 'error';
 					found.duration = 0;
 					return t;
 				});
@@ -80,9 +80,9 @@ const createTranscripts = () => {
 				return t;
 			});
 
-			const wavFilePath = await convertTo16bitWav(file);
 			try {
-				const output = await loadTranscription(wavFilePath);
+				await create16bitWav(file);
+				const output = await loadTranscription(file);
 
 				update((t) => {
 					const found = t.list.get(file.path);
@@ -96,7 +96,7 @@ const createTranscripts = () => {
 				update((t) => {
 					const found = t.list.get(file.path);
 					if (!found) return t;
-					found.status = 'empty';
+					found.status = 'error';
 					return t;
 				});
 			}
