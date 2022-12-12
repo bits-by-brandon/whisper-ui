@@ -1,8 +1,6 @@
 <script lang="ts">
-	import type { Transcript } from '$lib/models/transcript';
 	import { transcripts, active } from '$lib/stores/transcripts';
 	import { secondsToTimecode } from '$lib/util/timecode';
-	import { onMount } from 'svelte';
 	import Circle from 'svelte-icons/fa/FaRegCircle.svelte';
 	import Dot from 'svelte-icons/fa/FaRegDotCircle.svelte';
 	import Check from 'svelte-icons/fa/FaRegCheckCircle.svelte';
@@ -11,21 +9,16 @@
 
 	$: path = transcript.file.path;
 	$: isActive = $active?.file.path === path;
-
-	onMount(async () => {
-		if (transcript.duration === null) {
-			transcripts.calculateDuration(transcript.file);
-		}
-	});
 </script>
 
 <button class="transcript-card" class:isActive on:click={() => ($transcripts.active = path)}>
 	<span class="name">
 		<span class="icon {transcript.status}">
-			{#if transcript.status === 'empty'}<Circle />{/if}
-			{#if transcript.status === 'transcribing'}<Dot />{/if}
-			{#if transcript.status === 'transcribed'}<Check />{/if}
-			{#if transcript.status === 'error'}<Error />{/if}
+			{#if transcript.status === 'empty'}<Circle />
+			{:else if transcript.status === 'transcribing'}<Dot />
+			{:else if transcript.status === 'transcribed'}<Check />
+			{:else if transcript.status === 'error'}<Error />
+			{/if}
 		</span>
 		{transcript.file.fileName}
 	</span>

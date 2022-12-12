@@ -1,6 +1,7 @@
 export class MediaFile {
 	url: URL;
 	readonly transformedPath: string;
+	blobUrl: string | null = null;
 
 	constructor(path: string, dir: string) {
 		this.url = new URL('file://' + path);

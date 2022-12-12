@@ -1,28 +1,13 @@
 <script lang="ts">
-	import { readBinaryFile } from '@tauri-apps/api/fs';
 	import { active } from '$lib/stores/transcripts';
 	import Text from 'svelte-icons/fa/FaAlignLeft.svelte';
 	import VTT from 'svelte-icons/fa/FaClosedCaptioning.svelte';
 	import Button from './Button.svelte';
-
-	let srcPromise: Promise<string>;
-	$: {
-		if ($active) {
-			srcPromise = readBinaryFile($active.file.transformedPath).then((uArray) => {
-				const blob = new Blob([uArray], { type: 'audio/wav' });
-				return window.URL.createObjectURL(blob);
-			});
-		}
-	}
 </script>
 
 <div class="control-panel">
 	{#if $active && $active.status === 'transcribed'}
-		{#await srcPromise}
-			<audio controls />
-		{:then src}
-			<audio {src} controls />
-		{/await}
+		<audio src={$active.file.blobUrl || ''} controls />
 		<Button>
 			<Text slot="icon" />
 			Download plain text
@@ -40,7 +25,7 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-    gap: 8px;
+		gap: 8px;
 		padding: 12px;
 		background-color: var(--neutral-200);
 		border-top: 1px solid var(--neutral-400);
@@ -49,14 +34,13 @@
 	}
 
 	audio {
-    margin-right: auto;
-    max-width: 600px;
-    flex-grow: 1;
+		margin-right: auto;
+		max-width: 600px;
+		flex-grow: 1;
 	}
 
 	h2 {
 		font-size: 18px;
 		margin: 0;
 	}
-
 </style>
