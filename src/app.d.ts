@@ -15,6 +15,7 @@ type TimeData = {
 type Transcript = {
 	file: MediaFile;
 	rawOutput: string[];
+	name: string;
 	status: 'empty' | 'transcribing' | 'transcribed' | 'error';
 	duration: number | null;
 };
