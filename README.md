@@ -1,6 +1,9 @@
 # Whiskey
 Whiskey is a GUI for Open AI's [Whisper](https://openai.com/blog/whisper/) built using Tauri and Sveltekit.
 
+![Screenshot of Whiskey](/images/whiskey-screnshot.png)
+
+
 ## Features
 - Transcribe audio or video files into written text
 - Real-time text highlighting during playback
