@@ -2,6 +2,10 @@
 	import Line from '$lib/components/Line.svelte';
 	import { active, transcripts } from '$lib/stores/transcripts';
 	import Button from './Button.svelte';
+
+	// let textDict: { [key: string]: string[] } = {};
+	// let vttDict: { [key: string]: string[] } = {};
+	// $: if ($active) console.log(vttDict[$active.file.fileName]?.join());
 </script>
 
 <div class="content-pane">
@@ -9,16 +13,14 @@
 		{@const { status, file, rawOutput } = $active}
 		{#if status === 'transcribed'}
 			<h2>{file.fileName}</h2>
-			{#each rawOutput as line}
-				<Line line={line} />
+			{#each rawOutput as line, i}
+				<Line {line} />
 			{/each}
 		{:else}
 			<div class="transcribe-ready">
 				{#if status === 'empty'}
 					File ready to be transcribed
-					<Button on:click={() => transcripts.startTranscription(file)}>
-						Start Transcribing
-					</Button>
+					<Button on:click={() => transcripts.startTranscription(file)}>Start Transcribing</Button>
 				{:else if status === 'error'}
 					Something went wrong
 				{:else if status === 'transcribing'}

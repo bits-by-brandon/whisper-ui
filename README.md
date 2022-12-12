@@ -1,8 +1,15 @@
-# Svelte-Kit + Vite
+# Whiskey
+Whiskey is a GUI for Open AI's [Whisper](https://openai.com/blog/whisper/) built using Tauri and Sveltekit
 
-This template should help get you started developing with Tauri and Svelte-Kit in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer).
-
+## TODO: 
+[ ] Export files 
+[ ] Rename files 
+[ ] Upload more than wav files
+[ ] Upload video
+[ ] Start audio playback from line
+[ ] Save already opened files
+[ ] Drag and drop
+[ ] Record mic audio directly
+[ ] Editable text 
+[ ] Event and errors show in UI 
+[ ] Prediction accuracy 

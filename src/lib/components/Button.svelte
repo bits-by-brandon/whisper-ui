@@ -24,11 +24,12 @@
     display: flex;
     flex-direction: row;
     align-items: left;
+		white-space: nowrap;
     gap: 6px;
 	}
 
 	button:hover {
-		background-color: var(--neutral-300);
+		background-color: var(--neutral-500);
 	}
 
 	.icon {

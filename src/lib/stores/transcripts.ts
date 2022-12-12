@@ -3,6 +3,7 @@ import { writable, derived } from 'svelte/store';
 import { loadTranscription } from '$lib/util/whisper';
 import { create16bitWav, getDuration } from '$lib/util/ffmpeg';
 import { createAudioUrl } from '$lib/util/files';
+import { parseRawOutput } from '$lib/util/timecode';
 
 type Transcripts = {
 	list: Map<string, Transcript>;
@@ -127,4 +128,13 @@ export const transcripts = createTranscripts();
 export const active = derived(transcripts, ($t) => {
 	if (!$t.active) return null;
 	return $t.list.get($t.active) || null;
+});
+
+export const output = derived(active, ($active) => {
+	if (!$active) return { text: '', vtt: '' };
+	const parsed = $active.rawOutput.map(parseRawOutput);
+	return {
+		text: parsed.map(({ text }) => text).join('\n'),
+		vtt: `WEBVTT - ${$active.file.fileName}` + parsed.map(({ vtt }) => vtt).join()
+	};
 });

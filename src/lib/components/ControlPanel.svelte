@@ -1,26 +1,47 @@
 <script lang="ts">
 	import Text from 'svelte-icons/fa/FaAlignLeft.svelte';
 	import VTT from 'svelte-icons/fa/FaClosedCaptioning.svelte';
-	import { active } from '$lib/stores/transcripts';
+	import { active, output } from '$lib/stores/transcripts';
 	import { playback } from '$lib/stores/playback';
 	import Button from './Button.svelte';
 	import { onMount } from 'svelte';
+	import { save } from '@tauri-apps/api/dialog';
+	import { writeTextFile } from '@tauri-apps/api/fs';
+	import { downloadDir } from '@tauri-apps/api/path';
 
 	onMount(() => ($playback.currentTime = 0));
+
+	async function handleSave(name: string, content: string, format: string) {
+		const defaultPath = await downloadDir();
+		const path = await save({
+			title: 'Save transcription',
+			defaultPath: `${defaultPath}${name}.${format}`,
+			filters: [{ name, extensions: [format] }]
+		});
+		if (path) writeTextFile(path, content);
+	}
 </script>
 
 <div class="control-panel">
 	{#if $active && $active.status === 'transcribed'}
 		<audio src={$active.file.blobUrl || ''} controls bind:currentTime={$playback.currentTime} />
 
-		<Button>
+		<Button
+			on:click={() => {
+				if ($active) handleSave($active.file.name, $output.text, 'txt');
+			}}
+		>
 			<Text slot="icon" />
-			Download plain text
+			Export plain text
 		</Button>
 
-		<Button>
+		<Button
+			on:click={() => {
+				if ($active) handleSave($active.file.name, $output.vtt, 'vtt');
+			}}
+		>
 			<VTT slot="icon" />
-			Download ftt
+			Export vtt
 		</Button>
 	{/if}
 </div>
@@ -43,10 +64,5 @@
 		margin-right: auto;
 		max-width: 600px;
 		flex-grow: 1;
-	}
-
-	h2 {
-		font-size: 18px;
-		margin: 0;
 	}
 </style>

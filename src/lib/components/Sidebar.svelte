@@ -27,7 +27,7 @@
 <style>
 	.sidebar {
 		grid-area: side;
-		padding: 12px;
+		padding: 32px 12px 12px;
 		background: var(--neutral-300);
 		border-right: 1px solid var(--neutral-400);
 	}
