@@ -1,5 +1,6 @@
 # Whiskey
 Whiskey is a GUI for Open AI's [Whisper](https://openai.com/blog/whisper/) built using Tauri and Sveltekit.
+Using cpp binaries for Whisper from [whisper.cpp](https://github.com/ggerganov/whisper.cpp)
 
 ![Screenshot of Whiskey](images/whiskey-screenshot.png)
 
