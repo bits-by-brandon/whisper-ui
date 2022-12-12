@@ -64,15 +64,14 @@
 		border: none;
 		background: none;
 		border-radius: 5px;
-		padding: 8px 12px;
-		gap: 2px;
+		padding: 3px 8px 8px;
+		gap: 1px;
 		cursor: pointer;
 	}
 
 	.name {
 		display: flex;
 		align-items: center;
-		gap: 2px;
 	}
 
 	.input-name {
