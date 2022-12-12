@@ -19,7 +19,12 @@ export async function getWaveDir() {
 export async function openMediaFile() {
 	const opened = (await open({
 		multiple: false,
-		filters: [{ name: 'Audio', extensions: ['wav'] }]
+		filters: [
+			{
+				name: 'Media',
+				extensions: ['wav', 'mp3', 'aif', 'mp4', 'aac', 'mov', 'wmv', 'avi', 'webm']
+			}
+		]
 	})) as string | null;
 
 	if (!opened) throw new Error(`Could not open file`);
