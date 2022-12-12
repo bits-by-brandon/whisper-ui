@@ -10,7 +10,7 @@ Whiskey is a GUI for Open AI's [Whisper](https://openai.com/blog/whisper/) built
 ## Planned features: 
 [x] Export files 
 [x] Rename files 
-[ ] Save already opened files
+[x] Save already opened files
 [ ] Upload more than wav files
 [ ] Upload video
 [ ] Start audio playback from line

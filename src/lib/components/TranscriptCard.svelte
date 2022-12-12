@@ -1,11 +1,14 @@
 <script lang="ts">
-	import { transcripts, active } from '$lib/stores/transcripts';
-	import { secondsToTimecode } from '$lib/util/timecode';
+	import { sep } from '@tauri-apps/api/path';
+	import { fly } from 'svelte/transition';
+	import { quadOut } from 'svelte/easing';
 	import Circle from 'svelte-icons/fa/FaRegCircle.svelte';
 	import Dot from 'svelte-icons/fa/FaRegDotCircle.svelte';
 	import Check from 'svelte-icons/fa/FaRegCheckCircle.svelte';
 	import Error from 'svelte-icons/fa/FaExclamationCircle.svelte';
-	import { sep } from '@tauri-apps/api/path';
+	import Close from 'svelte-icons/md/MdClose.svelte';
+	import { transcripts, active } from '$lib/stores/transcripts';
+	import { secondsToTimecode } from '$lib/util/timecode';
 
 	export let transcript: Transcript;
 	let name = transcript.name;
@@ -18,11 +21,22 @@
 		}
 	}
 
+	function handleClose(e: Event) {
+		e.stopPropagation();
+		transcripts.close(transcript.file);
+	}
+
 	$: path = transcript.file.path;
 	$: isActive = $active?.file.path === path;
 </script>
 
-<button class="transcript-card" class:isActive on:click={() => ($transcripts.active = path)}>
+<button
+	class="transcript-card"
+	class:isActive
+	on:click={() => ($transcripts.active = path)}
+	in:fly={{ duration: 300, x: 10, y: 0, easing: quadOut }}
+	out:fly={{ duration: 300, x: 10, y: 0, easing: quadOut }}
+>
 	<div class="name">
 		<span class="icon {transcript.status}">
 			{#if transcript.status === 'empty'}<Circle />
@@ -38,6 +52,9 @@
 			bind:value={name}
 			on:input={handleInput}
 		/>
+		<button class="close" on:click={handleClose}>
+			<Close />
+		</button>
 	</div>
 	<div class="bottom">
 		<div class="extension">
@@ -59,30 +76,36 @@
 		margin: 0;
 		text-align: left;
 		appearance: none;
-		display: grid;
+		display: flex;
+		flex-direction: column;
+		position: relative;
 		width: 100%;
 		border: none;
 		background: none;
 		border-radius: 5px;
-		padding: 3px 8px 8px;
-		gap: 1px;
-		cursor: pointer;
+		padding: 5px 8px;
+		gap: 4px;
 	}
 
 	.name {
 		display: flex;
 		align-items: center;
+		flex-wrap: nowrap;
+		gap: 4px;
 	}
 
 	.input-name {
 		appearance: none;
 		border: 0;
+		margin: 0;
+		padding: 0 0 0 4px;
 		background: transparent;
 		color: var(--neutral-900);
 		display: inline-block;
 		font-size: 14px;
-		padding-left: 4px;
 		border-radius: 4px;
+		text-overflow: ellipsis;
+		width: 160px;
 	}
 
 	.input-name:focus {
@@ -101,7 +124,6 @@
 	.icon {
 		display: inline-block;
 		transform: translateY(1px);
-		margin-right: 2px;
 		width: 12px;
 		height: 12px;
 	}
@@ -134,6 +156,25 @@
 
 	.extension {
 		text-transform: uppercase;
+	}
+
+	.close {
+		width: 16px;
+		height: 16px;
+		padding: 0;
+		color: var(--neutral-600);
+		background: transparent;
+		border: none;
+		border-radius: 5px;
+		opacity: 0;
+	}
+
+	.transcript-card:hover .close {
+		opacity: 1;
+	}
+
+	.close:hover {
+		background: var(--neutral-500);
 	}
 
 	@keyframes glow {

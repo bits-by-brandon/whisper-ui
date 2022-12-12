@@ -4,15 +4,19 @@ import { loadTranscription } from '$lib/util/whisper';
 import { create16bitWav, getDuration } from '$lib/util/ffmpeg';
 import { createAudioUrl } from '$lib/util/files';
 import { parseRawOutput } from '$lib/util/timecode';
+import { save } from '$lib/util/persistance';
+import { debounce } from '$lib/util/debounce';
 
 type Transcripts = {
 	list: Map<string, Transcript>;
+	loaded: boolean;
 	active: string | null;
 };
 
 const createTranscripts = () => {
 	const initialValue = {
 		list: new Map<string, Transcript>(),
+		loaded: false,
 		active: null
 	};
 	const { subscribe, update, set } = writable<Transcripts>(initialValue);
@@ -30,11 +34,16 @@ const createTranscripts = () => {
 	};
 
 	return {
+		update,
 		subscribe,
 		set,
 		createFromFile: async (file: MediaFile) => {
 			update((t) => {
-				if (t.list.has(file.path)) throw new Error('[info] Already uploaded this file');
+				if (t.list.has(file.path)) {
+					console.info('Already uploaded this file');
+					return t;
+				}
+
 				t.list.set(file.path, {
 					file,
 					name: file.name,
@@ -46,6 +55,13 @@ const createTranscripts = () => {
 			});
 
 			transcripts.calculateDuration(file);
+		},
+
+		close: (file: MediaFile) => {
+			update((t) => {
+				t.list.delete(file.path);
+				return t;
+			});
 		},
 
 		setStatus: (file: MediaFile, status: Transcript['status']) => {
@@ -129,17 +145,28 @@ const createTranscripts = () => {
 					return t;
 				});
 			}
-		}
+		},
+
+		createAudioBlobUrl
 	};
 };
 
+/**
+ * Primary store for all transcripts
+ */
 export const transcripts = createTranscripts();
 
+/**
+ * The currently active transcript
+ */
 export const active = derived(transcripts, ($t) => {
 	if (!$t.active) return null;
 	return $t.list.get($t.active) || null;
 });
 
+/**
+ * derived output store holds text value formatted for export
+ */
 export const output = derived(active, ($active) => {
 	if (!$active) return { text: '', vtt: '' };
 	const parsed = $active.rawOutput.map(parseRawOutput);
@@ -148,3 +175,10 @@ export const output = derived(active, ($active) => {
 		vtt: `WEBVTT - ${$active.file.fileName}` + parsed.map(({ vtt }) => vtt).join()
 	};
 });
+
+transcripts.subscribe(
+	debounce((t: Transcripts) => {
+		// only save after we load, or else we would override the existing save with empty data on boot
+		if (t.loaded) save([...t.list.values()]);
+	})
+);
