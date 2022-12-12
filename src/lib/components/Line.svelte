@@ -1,36 +1,38 @@
 <script lang="ts">
-	export let data: string;
-	type Timestamp = {
-		hours: string;
-		minutes: string;
-		seconds: string;
+	import { playback } from '$lib/stores/playback';
+	export let line: string;
+
+	type TimeData = {
+		hours: number;
+		minutes: number;
+		seconds: number;
 	};
 
-	function toTimestamp(matchArray: RegExpMatchArray): Timestamp {
+	function timecodeToTimeData(matchArray: RegExpMatchArray): TimeData {
 		return {
-			hours: matchArray[1],
-			minutes: matchArray[2],
-			seconds: matchArray[3]
+			hours: parseInt(matchArray[1]),
+			minutes: parseInt(matchArray[2]),
+			seconds: parseFloat(matchArray[3])
 		};
 	}
 
+	function timeDataToSeconds(time: TimeData) {
+		return time.hours * 3600 + time.minutes * 60 + time.seconds;
+	}
+
 	const timestampRegex = /(\d\d):(\d\d):(\d\d)/g;
-	$: [timestamp, text] = data.split(']');
+	$: [timestamp, text] = line.split(']');
 	$: match = [...timestamp.matchAll(timestampRegex)] || [];
-	$: start = toTimestamp(match[0]);
-	$: end = toTimestamp(match[1]);
+	$: start = timecodeToTimeData(match[0]);
+	$: end = timecodeToTimeData(match[1]);
+	$: startSeconds = timeDataToSeconds(start);
+	$: endSeconds = timeDataToSeconds(end);
+	$: active = $playback.currentTime > startSeconds && $playback.currentTime < endSeconds;
 </script>
 
-<div class="line">
+<div class="line" class:active>
 	{#if timestamp}
-		<span
-			on:selectstart={() => false}
-			on:mousedown={() => false}
-			on:copy={() => false}
-			on:cut={() => false}
-			on:paste={() => false}
-			class="timestamp"
-		>
+		<span class="timestamp">
 			{start.hours}:{start.minutes}:{start.seconds} → {end.hours}:{end.minutes}:{end.seconds}
 		</span>
 	{/if}
@@ -50,6 +52,10 @@
 
 	.line:hover {
 		background-color: var(--neutral-300);
+	}
+
+	.line.active {
+		background-color: var(--blue-500);
 	}
 
 	.timestamp {

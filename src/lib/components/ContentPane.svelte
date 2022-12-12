@@ -1,12 +1,7 @@
 <script lang="ts">
 	import Line from '$lib/components/Line.svelte';
-	import type { MediaFile } from '$lib/models/mediaFile';
 	import { active, transcripts } from '$lib/stores/transcripts';
 	import Button from './Button.svelte';
-
-	function handleTranscribe(file: MediaFile) {
-		transcripts.startTranscription(file);
-	}
 </script>
 
 <div class="content-pane">
@@ -15,13 +10,15 @@
 		{#if status === 'transcribed'}
 			<h2>{file.fileName}</h2>
 			{#each rawOutput as line}
-				<Line data={line} />
+				<Line line={line} />
 			{/each}
 		{:else}
 			<div class="transcribe-ready">
 				{#if status === 'empty'}
 					File ready to be transcribed
-					<Button on:click={() => handleTranscribe(file)}>Start Transcribing</Button>
+					<Button on:click={() => transcripts.startTranscription(file)}>
+						Start Transcribing
+					</Button>
 				{:else if status === 'error'}
 					Something went wrong
 				{:else if status === 'transcribing'}

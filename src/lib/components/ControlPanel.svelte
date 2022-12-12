@@ -1,17 +1,23 @@
 <script lang="ts">
-	import { active } from '$lib/stores/transcripts';
 	import Text from 'svelte-icons/fa/FaAlignLeft.svelte';
 	import VTT from 'svelte-icons/fa/FaClosedCaptioning.svelte';
+	import { active } from '$lib/stores/transcripts';
+	import { playback } from '$lib/stores/playback';
 	import Button from './Button.svelte';
+	import { onMount } from 'svelte';
+
+	onMount(() => ($playback.currentTime = 0));
 </script>
 
 <div class="control-panel">
 	{#if $active && $active.status === 'transcribed'}
-		<audio src={$active.file.blobUrl || ''} controls />
+		<audio src={$active.file.blobUrl || ''} controls bind:currentTime={$playback.currentTime} />
+
 		<Button>
 			<Text slot="icon" />
 			Download plain text
 		</Button>
+
 		<Button>
 			<VTT slot="icon" />
 			Download ftt
