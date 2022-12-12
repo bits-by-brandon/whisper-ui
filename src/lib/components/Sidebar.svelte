@@ -46,7 +46,7 @@
 		gap: 4px;
 	}
 
-	.menu:first-child {
+	:global(.menu > *:first-child) {
 		flex-grow: 1;
 	}
 
