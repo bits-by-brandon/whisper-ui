@@ -7,7 +7,7 @@
 		"withGlobalTauri": false
 	},
 	"package": {
-		"productName": "whisper-ui",
+		"productName": "Whiskey",
 		"version": "0.0.0"
 	},
 	"tauri": {
@@ -65,7 +65,7 @@
 				"icons/icon.icns",
 				"icons/icon.ico"
 			],
-			"identifier": "com.tauri.dev",
+			"identifier": "com.bitsbybrandon.dev",
 			"longDescription": "",
 			"macOS": {
 				"entitlements": null,
@@ -90,12 +90,13 @@
 		},
 		"windows": [
 			{
+				"titleBarStyle": "Transparent",
 				"hiddenTitle": true,
 				"fullscreen": false,
-				"height": 600,
+				"height": 800,
 				"resizable": true,
-				"title": "Whisper",
-				"width": 800
+				"title": "Whiskey",
+				"width": 1200
 			}
 		]
 	}

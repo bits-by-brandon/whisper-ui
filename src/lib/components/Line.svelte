@@ -1,41 +1,16 @@
 <script lang="ts">
 	import { playback } from '$lib/stores/playback';
+	import { parseRawOutput } from '$lib/util/timecode';
 	export let line: string;
 
-	type TimeData = {
-		hours: number;
-		minutes: number;
-		seconds: number;
-	};
-
-	function timecodeToTimeData(matchArray: RegExpMatchArray): TimeData {
-		return {
-			hours: parseInt(matchArray[1]),
-			minutes: parseInt(matchArray[2]),
-			seconds: parseFloat(matchArray[3])
-		};
-	}
-
-	function timeDataToSeconds(time: TimeData) {
-		return time.hours * 3600 + time.minutes * 60 + time.seconds;
-	}
-
-	const timestampRegex = /(\d\d):(\d\d):(\d\d)/g;
-	$: [timestamp, text] = line.split(']');
-	$: match = [...timestamp.matchAll(timestampRegex)] || [];
-	$: start = timecodeToTimeData(match[0]);
-	$: end = timecodeToTimeData(match[1]);
-	$: startSeconds = timeDataToSeconds(start);
-	$: endSeconds = timeDataToSeconds(end);
+	$: ({ start, end, text, startSeconds, endSeconds } = parseRawOutput(line));
 	$: active = $playback.currentTime > startSeconds && $playback.currentTime < endSeconds;
 </script>
 
 <div class="line" class:active>
-	{#if timestamp}
-		<span class="timestamp">
-			{start.hours}:{start.minutes}:{start.seconds} → {end.hours}:{end.minutes}:{end.seconds}
-		</span>
-	{/if}
+	<span class="timestamp">
+		{start.hoursStr}:{start.minutesStr}:{start.secondsStr} → {end.hoursStr}:{end.minutesStr}:{end.secondsStr}
+	</span>
 	{#if text}
 		<span class="text">
 			{text}

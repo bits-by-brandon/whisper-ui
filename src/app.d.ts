@@ -3,6 +3,15 @@
 // and what to do when importing types
 declare namespace App {}
 
+type TimeData = {
+	hours: number;
+	minutes: number;
+	seconds: number;
+	hoursStr: string;
+	minutesStr: string;
+	secondsStr: string;
+};
+
 type Transcript = {
 	file: MediaFile;
 	rawOutput: string[];

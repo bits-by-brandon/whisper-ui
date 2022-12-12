@@ -17,3 +17,44 @@ export function secondsToTimecode(seconds: number) {
 		.toString()
 		.padStart(2, '0')}`;
 }
+
+export function timecodeToTimeData(matchArray: RegExpMatchArray): TimeData {
+	const h = parseInt(matchArray[1]);
+	const m = parseInt(matchArray[2]);
+	const s = parseInt(matchArray[3]);
+
+	return {
+		hours: h,
+		minutes: m,
+		seconds: s,
+		hoursStr: h.toString().padStart(2, '0'),
+		minutesStr: m.toString().padStart(2, '0'),
+		secondsStr: s.toString().padStart(2, '0')
+	};
+}
+
+export function timeDataToSeconds(time: TimeData) {
+	return time.hours * 3600 + time.minutes * 60 + time.seconds;
+}
+
+export function parseRawOutput(raw: string) {
+	const timestampRegex = /(\d\d):(\d\d):(\d\d)/g;
+	const timestamp = raw.split(']')[0];
+	const text = raw.split(']')[1].trim();
+	const match = [...timestamp.matchAll(timestampRegex)] || [];
+	const start = timecodeToTimeData(match[0]);
+	const end = timecodeToTimeData(match[1]);
+	const vtt = `
+
+${start.hoursStr}:${start.minutesStr}:${start.secondsStr} --> ${end.hoursStr}:${end.minutesStr}:${end.secondsStr}
+- ${text}`;
+
+	return {
+		start,
+		end,
+		vtt,
+		text,
+		startSeconds: timeDataToSeconds(start),
+		endSeconds: timeDataToSeconds(end)
+	};
+}
