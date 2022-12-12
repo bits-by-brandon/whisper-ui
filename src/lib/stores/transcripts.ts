@@ -1,8 +1,8 @@
 import type { MediaFile } from '$lib/models/mediaFile';
-import type { Transcript } from '$lib/models/transcript';
 import { writable, derived } from 'svelte/store';
 import { loadTranscription } from '$lib/util/whisper';
 import { create16bitWav, getDuration } from '$lib/util/ffmpeg';
+import { createAudioUrl } from '$lib/util/files';
 
 type Transcripts = {
 	list: Map<string, Transcript>;
@@ -15,6 +15,18 @@ const createTranscripts = () => {
 		active: null
 	};
 	const { subscribe, update, set } = writable<Transcripts>(initialValue);
+
+	const createAudioBlobUrl = async (file: MediaFile) => {
+		if (file.blobUrl) return;
+		const blobUrl = await createAudioUrl(file);
+
+		update((t) => {
+			const found = t.list.get(file.path);
+			if (!found) return t;
+			found.file.blobUrl = blobUrl;
+			return t;
+		});
+	};
 
 	return {
 		subscribe,
@@ -30,6 +42,8 @@ const createTranscripts = () => {
 				});
 				return t;
 			});
+
+			transcripts.calculateDuration(file);
 		},
 
 		setStatus: (file: MediaFile, status: Transcript['status']) => {
@@ -82,6 +96,10 @@ const createTranscripts = () => {
 
 			try {
 				await create16bitWav(file);
+
+				// Kick off creating the audio Blob Url but don't wait for it
+				createAudioBlobUrl(file);
+
 				const output = await loadTranscription(file);
 
 				update((t) => {
