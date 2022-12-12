@@ -47,6 +47,9 @@
 						"args": true
 					}
 				]
+			},
+			"window": {
+				"startDragging": true
 			}
 		},
 		"bundle": {
@@ -90,7 +93,8 @@
 		},
 		"windows": [
 			{
-				"titleBarStyle": "Transparent",
+				"titleBarStyle": "Overlay",
+				"acceptFirstMouse": true,
 				"hiddenTitle": true,
 				"fullscreen": false,
 				"height": 800,

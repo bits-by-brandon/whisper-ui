@@ -15,6 +15,7 @@
 	button {
 		appearance: none;
 		border: 1px solid var(--neutral-500);
+		margin: 0;
 		background: var(--neutral-400);
 		color: var(--neutral-900);
 		font-size: 14px;
@@ -23,7 +24,10 @@
 		cursor: pointer;
     display: flex;
     flex-direction: row;
-    align-items: left;
+    align-items: baseline;
+		justify-content: flex-start;
+		min-height: 30px;
+		min-width: 32px;
 		white-space: nowrap;
     gap: 6px;
 	}
