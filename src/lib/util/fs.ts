@@ -32,3 +32,8 @@ export async function openMediaFile() {
 	const waveDir = await getWaveDir();
 	return new MediaFile(opened, waveDir);
 }
+
+export async function createMediaFile(path: string) {
+	const waveDir = await getWaveDir();
+	return new MediaFile(path, waveDir);
+}
