@@ -21,7 +21,7 @@ export function secondsToTimecode(seconds: number) {
 export function timecodeToTimeData(matchArray: RegExpMatchArray): TimeData {
 	const h = parseInt(matchArray[1]);
 	const m = parseInt(matchArray[2]);
-	const s = parseInt(matchArray[3]);
+	const s = parseFloat(matchArray[3]);
 
 	return {
 		hours: h,
