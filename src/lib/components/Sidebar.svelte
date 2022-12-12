@@ -44,7 +44,7 @@
 		flex-direction: row;
 		border-bottom: 1px solid var(--neutral-400);
 		padding-bottom: 24px;
-		gap: 4px;
+		gap: 8px;
 	}
 
 	:global(.menu > *:first-child) {
