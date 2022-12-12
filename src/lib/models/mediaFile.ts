@@ -2,8 +2,10 @@ export class MediaFile {
 	url: URL;
 	readonly transformedPath: string;
 	blobUrl: string | null = null;
+	originalPath: string;
 
 	constructor(path: string, dir: string) {
+		this.originalPath = path;
 		this.url = new URL('file://' + path);
 		this.transformedPath = dir + this.name + '-tmp.wav';
 	}

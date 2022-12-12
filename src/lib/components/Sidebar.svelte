@@ -5,6 +5,7 @@
 	import Microphone from 'svelte-icons/fa/FaMicrophone.svelte';
 	import Button from './Button.svelte';
 	import TranscriptCard from './TranscriptCard.svelte';
+	import { flip } from 'svelte/animate';
 
 	async function handleOpenFile() {
 		const mediaFile = await openMediaFile();
@@ -24,8 +25,8 @@
 		</Button>
 	</div>
 	<ul class="transcripts">
-		{#each Array.from($transcripts.list) as [_, transcript]}
-			<li><TranscriptCard {transcript} /></li>
+		{#each Array.from($transcripts.list) as [filename, transcript] (filename)}
+			<li animate:flip={{ duration: 300, delay: 300 }}><TranscriptCard {transcript} /></li>
 		{/each}
 	</ul>
 </div>
