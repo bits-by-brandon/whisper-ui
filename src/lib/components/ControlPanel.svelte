@@ -28,7 +28,7 @@
 
 		<Button
 			on:click={() => {
-				if ($active) handleSave($active.file.name, $output.text, 'txt');
+				if ($active) handleSave($active.name, $output.text, 'txt');
 			}}
 		>
 			<Text slot="icon" />
@@ -37,7 +37,7 @@
 
 		<Button
 			on:click={() => {
-				if ($active) handleSave($active.file.name, $output.vtt, 'vtt');
+				if ($active) handleSave($active.name, $output.vtt, 'vtt');
 			}}
 		>
 			<VTT slot="icon" />

@@ -5,14 +5,25 @@
 	import Dot from 'svelte-icons/fa/FaRegDotCircle.svelte';
 	import Check from 'svelte-icons/fa/FaRegCheckCircle.svelte';
 	import Error from 'svelte-icons/fa/FaExclamationCircle.svelte';
+	import { sep } from '@tauri-apps/api/path';
+
 	export let transcript: Transcript;
+	let name = transcript.name;
+
+	function handleInput(e: Event) {
+		const target = e.target as HTMLInputElement;
+		if (target) {
+			name = target.value.replaceAll(sep, '');
+			transcripts.setName(transcript.file, name);
+		}
+	}
 
 	$: path = transcript.file.path;
 	$: isActive = $active?.file.path === path;
 </script>
 
 <button class="transcript-card" class:isActive on:click={() => ($transcripts.active = path)}>
-	<span class="name">
+	<div class="name">
 		<span class="icon {transcript.status}">
 			{#if transcript.status === 'empty'}<Circle />
 			{:else if transcript.status === 'transcribing'}<Dot />
@@ -20,9 +31,15 @@
 			{:else if transcript.status === 'error'}<Error />
 			{/if}
 		</span>
-		{transcript.file.fileName}
-	</span>
-	<span class="bottom">
+		<input
+			autocomplete="”off”"
+			class="input-name"
+			type="text"
+			bind:value={name}
+			on:input={handleInput}
+		/>
+	</div>
+	<div class="bottom">
 		<div class="extension">
 			{transcript.file.extension}
 		</div>
@@ -34,11 +51,12 @@
 				Determining length...
 			{/if}
 		</div>
-	</span>
+	</div>
 </button>
 
 <style>
 	.transcript-card {
+		margin: 0;
 		text-align: left;
 		appearance: none;
 		display: grid;
@@ -46,11 +64,31 @@
 		border: none;
 		background: none;
 		border-radius: 5px;
-		color: var(--neutral-900);
-		font-size: 14px;
-		padding: 4px 8px;
-		gap: 6px;
+		padding: 8px 12px;
+		gap: 2px;
 		cursor: pointer;
+	}
+
+	.name {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+	}
+
+	.input-name {
+		appearance: none;
+		border: 0;
+		background: transparent;
+		color: var(--neutral-900);
+		display: inline-block;
+		font-size: 14px;
+		padding-left: 4px;
+		border-radius: 4px;
+	}
+
+	.input-name:focus {
+		outline: none;
+		background-color: var(--neutral-500);
 	}
 
 	.transcript-card:hover {

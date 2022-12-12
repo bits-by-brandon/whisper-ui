@@ -37,6 +37,7 @@ const createTranscripts = () => {
 				if (t.list.has(file.path)) throw new Error('[info] Already uploaded this file');
 				t.list.set(file.path, {
 					file,
+					name: file.name,
 					status: 'empty',
 					rawOutput: [],
 					duration: null
@@ -52,6 +53,15 @@ const createTranscripts = () => {
 				const found = t.list.get(file.path);
 				if (!found) return t;
 				found.status = status;
+				return t;
+			});
+		},
+
+		setName: (file: MediaFile, name: string) => {
+			update((t) => {
+				const found = t.list.get(file.path);
+				if (!found) return t;
+				found.name = name;
 				return t;
 			});
 		},

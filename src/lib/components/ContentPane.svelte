@@ -2,18 +2,14 @@
 	import Line from '$lib/components/Line.svelte';
 	import { active, transcripts } from '$lib/stores/transcripts';
 	import Button from './Button.svelte';
-
-	// let textDict: { [key: string]: string[] } = {};
-	// let vttDict: { [key: string]: string[] } = {};
-	// $: if ($active) console.log(vttDict[$active.file.fileName]?.join());
 </script>
 
 <div class="content-pane">
 	{#if $active}
-		{@const { status, file, rawOutput } = $active}
+		{@const { status, file, rawOutput, name } = $active}
 		{#if status === 'transcribed'}
-			<h2>{file.fileName}</h2>
-			{#each rawOutput as line, i}
+			<h2>{name}</h2>
+			{#each rawOutput as line}
 				<Line {line} />
 			{/each}
 		{:else}
