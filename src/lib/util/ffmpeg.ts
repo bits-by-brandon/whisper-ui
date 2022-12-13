@@ -20,6 +20,7 @@ export async function create16bitWav(file: MediaFile): Promise<void> {
 
 	const child = await ffmpeg.execute();
 	if (child.code !== 0) {
+		console.error(child.stderr);
 		throw Error(`Could not transform file ${file.path}`);
 	}
 }

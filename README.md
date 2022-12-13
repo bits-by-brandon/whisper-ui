@@ -17,10 +17,10 @@ Using cpp binaries for Whisper from [whisper.cpp](https://github.com/ggerganov/w
 [x] Save already opened files
 [x] Upload more than wav files
 [x] Upload video
-[ ] Drag and drop
-[ ] Start audio playback from line
-[ ] Apple Silicon, Linux, and Windows binaries
+[x] Drag and drop
+[x] Start audio playback from line
 [ ] Record mic audio directly
+[ ] Apple Silicon, Linux, and Windows binaries
 [ ] Editable text 
 [ ] Event and errors show in UI 
 [ ] Prediction accuracy 

@@ -24,7 +24,12 @@
 
 <div class="control-panel">
 	{#if $active && $active.status === 'transcribed'}
-		<audio src={$active.file.blobUrl || ''} controls bind:currentTime={$playback.currentTime} />
+		<audio
+			src={$active.file.blobUrl || ''}
+			controls
+			bind:currentTime={$playback.currentTime}
+			bind:paused={$playback.paused}
+		/>
 
 		<Button
 			on:click={() => {
