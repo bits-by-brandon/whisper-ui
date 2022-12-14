@@ -1,3 +1,8 @@
+
+* {
+	box-sizing: border-box;
+}
+
 :root {
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 	font-size: 16px;
@@ -23,4 +28,13 @@ body {
 }
 .root {
 	height: 100%;
+}
+
+@keyframes pulse {
+	from {
+		opacity: 0.5;
+	}
+	to {
+		opacity: 1;
+	}
 }

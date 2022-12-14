@@ -4,9 +4,17 @@ import { open } from '@tauri-apps/api/dialog';
 import { fs } from '@tauri-apps/api';
 
 export const WAV_DIR = '16-bit-wav';
+export const RECORDINGS_DIR = 'recordings';
 
 export async function ensureWaveDir() {
-	await fs.createDir('16-bit-wav', {
+	await fs.createDir(WAV_DIR, {
+		dir: fs.BaseDirectory.AppCache,
+		recursive: true
+	});
+}
+
+export async function ensureRecordingDir() {
+	await fs.createDir(RECORDINGS_DIR, {
 		dir: fs.BaseDirectory.AppCache,
 		recursive: true
 	});
@@ -14,6 +22,10 @@ export async function ensureWaveDir() {
 
 export async function getWaveDir() {
 	return (await appCacheDir()) + WAV_DIR + '/';
+}
+
+export async function getRecordingsDir() {
+	return (await appCacheDir()) + RECORDINGS_DIR + '/';
 }
 
 export async function openMediaFile() {
@@ -29,11 +41,5 @@ export async function openMediaFile() {
 
 	if (!opened) throw new Error(`Could not open file`);
 
-	const waveDir = await getWaveDir();
-	return new MediaFile(opened, waveDir);
-}
-
-export async function createMediaFile(path: string) {
-	const waveDir = await getWaveDir();
-	return new MediaFile(path, waveDir);
+	return MediaFile.create(opened);
 }

@@ -12,10 +12,9 @@ export async function save(transcripts: Transcript[]) {
 	return fs.writeTextFile(cacheDir + SAVE_FILE, data);
 }
 
-export async function load() {
+export async function loadFromCache() {
 	const cacheDir = await appCacheDir();
 	try {
-		await ensureWaveDir();
 		const waveDir = await getWaveDir();
 		const text = await fs.readTextFile(cacheDir + SAVE_FILE);
 		const data = JSON.parse(text);

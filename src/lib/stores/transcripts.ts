@@ -2,7 +2,7 @@ import type { MediaFile } from '$lib/models/mediaFile';
 import { writable, derived } from 'svelte/store';
 import { loadTranscription } from '$lib/util/whisper';
 import { create16bitWav, getDuration } from '$lib/util/ffmpeg';
-import { createAudioUrl } from '$lib/util/files';
+import { createAudioUrlFromFile } from '$lib/util/files';
 import { parseRawOutput } from '$lib/util/timecode';
 import { save } from '$lib/util/persistance';
 import { debounce } from '$lib/util/debounce';
@@ -23,7 +23,7 @@ const createTranscripts = () => {
 
 	const createAudioBlobUrl = async (file: MediaFile) => {
 		if (file.blobUrl) return;
-		const blobUrl = await createAudioUrl(file);
+		const blobUrl = await createAudioUrlFromFile(file);
 
 		update((t) => {
 			const found = t.list.get(file.path);

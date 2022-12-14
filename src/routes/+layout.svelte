@@ -3,11 +3,14 @@
 	import '../styles/colors.css';
 	import Titlebar from '$lib/components/Titlebar.svelte';
 	import { onMount } from 'svelte';
-	import { load } from '$lib/util/persistance';
-	import { transcripts } from '$lib/stores/transcripts';
+	import { loadFromCache } from '$lib/util/persistance';
+	import { ensureRecordingDir, ensureWaveDir } from '$lib/util/fs';
 
-	onMount(() => {
-		load();
+	onMount(async () => {
+		// Create any required directories
+		await Promise.all([ensureWaveDir(), ensureRecordingDir()]);
+		// Load the state
+		await loadFromCache();
 	});
 </script>
 

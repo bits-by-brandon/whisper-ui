@@ -1,29 +1,27 @@
 <script lang="ts">
+	import OpenFileButton from './OpenFileButton.svelte';
+
 	import { flip } from 'svelte/animate';
 	import { onMount } from 'svelte';
 	import { appWindow } from '@tauri-apps/api/window';
 	import { transcripts } from '$lib/stores/transcripts';
-	import { createMediaFile, openMediaFile } from '$lib/util/fs';
-	import Plus from 'svelte-icons/fa/FaPlus.svelte';
-	import Microphone from 'svelte-icons/fa/FaMicrophone.svelte';
-	import Button from './Button.svelte';
+	import { MediaFile } from '$lib/models/mediaFile';
 	import TranscriptCard from './TranscriptCard.svelte';
+	import RecordButton from './RecordButton.svelte';
+	import Waveform from './Waveform.svelte';
 
 	let dragCount = 0;
 	$: dragging = dragCount > 0;
 
-	async function handleOpenFile() {
-		const mediaFile = await openMediaFile();
-		await transcripts.createFromFile(mediaFile);
-		transcripts.setActive(mediaFile);
-	}
+	let recording: boolean;
+	let stream: MediaStream | null;
 
 	onMount(async () => {
 		return await appWindow.onFileDropEvent(async (event) => {
 			if (event.payload.type === 'drop' && dragging) {
 				dragging = false;
 				event.payload.paths.forEach((path) => {
-					createMediaFile(path).then((media) => transcripts.createFromFile(media));
+					MediaFile.create(path).then((media) => transcripts.createFromFile(media));
 				});
 			} else if (event.payload.type === 'cancel') {
 				dragging = false;
@@ -34,19 +32,18 @@
 
 <div class="sidebar" on:dragenter={() => (dragCount += 1)} on:dragleave={() => (dragCount -= 1)}>
 	<div class="menu">
-		<Button on:click={handleOpenFile}>
-			<Plus slot="icon" />
-			Open file
-		</Button>
-		<Button>
-			<Microphone slot="icon" />
-		</Button>
+		<OpenFileButton />
+		<RecordButton bind:recording bind:stream />
 	</div>
 	<ul class="transcripts">
 		{#each Array.from($transcripts.list) as [filename, transcript] (filename)}
 			<li animate:flip={{ duration: 300, delay: 300 }}><TranscriptCard {transcript} /></li>
 		{/each}
 	</ul>
+
+	{#if stream && recording}
+		<Waveform {stream} />
+	{/if}
 
 	<div class="drag-modal" class:dragging>Drop file to import</div>
 </div>
@@ -58,6 +55,7 @@
 		background: var(--neutral-300);
 		border-right: 1px solid var(--neutral-400);
 		position: relative;
+		overflow: scroll;
 	}
 
 	.menu {

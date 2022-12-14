@@ -3,6 +3,7 @@
 	import ContentPane from '$lib/components/ContentPane.svelte';
 	import { onMount } from 'svelte';
 	import ControlPanel from '$lib/components/ControlPanel.svelte';
+	import DeviceSelectionModal from '$lib/components/DeviceSelectionModal.svelte';
 
 	onMount(() => {
 		document.addEventListener('copy', function (event) {
@@ -21,6 +22,7 @@
 	<Sidebar />
 	<ContentPane />
 	<ControlPanel />
+	<DeviceSelectionModal />
 </main>
 
 <style>

@@ -134,7 +134,7 @@
 
 	.icon.transcribing {
 		color: var(--neutral-600);
-		animation: glow alternate infinite 700ms ease-in-out;
+		animation: pulse alternate infinite 700ms ease-in-out;
 	}
 
 	.icon.transcribed {
@@ -177,12 +177,4 @@
 		background: var(--neutral-500);
 	}
 
-	@keyframes glow {
-		from {
-			opacity: 0.5;
-		}
-		to {
-			opacity: 1;
-		}
-	}
 </style>
