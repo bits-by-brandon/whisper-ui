@@ -47,7 +47,7 @@ jobs:
           make
           cp main ../src-tauri/binaries/whisper-x86_64-pc-windows-msvc.exe
       - name: install app dependencies and build it
-        run: yarn && yarn build
+        run: yarn install --frozen-lockfile && yarn build
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
