@@ -50,6 +50,7 @@ const createTranscripts = () => {
 					name: file.name,
 					status: 'empty',
 					rawOutput: [],
+					editedOutput: [],
 					duration: null
 				});
 				return t;
@@ -135,6 +136,7 @@ const createTranscripts = () => {
 					if (!found) return t;
 					found.status = 'transcribed';
 					found.rawOutput = output;
+					found.editedOutput = output;
 					return t;
 				});
 			} catch (e) {

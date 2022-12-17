@@ -2,11 +2,24 @@
 	import { playback } from '$lib/stores/playback';
 	import { parseRawOutput } from '$lib/util/timecode';
 	import Play from 'svelte-icons/fa/FaPlay.svelte';
+	import { onMount } from 'svelte/internal';
 	export let line: string;
+	let textEl: HTMLElement;
+	let height = 0;
+
+	onMount(() => {
+		setHeight();
+		textEl.addEventListener('input', setHeight);
+		return () => textEl.removeEventListener('input', setHeight);
+	});
+
+	function setHeight() {
+		height = textEl.scrollHeight;
+	}
 
 	$: ({ start, end, text, startSeconds, endSeconds } = parseRawOutput(line));
 	$: active = $playback.currentTime > startSeconds && $playback.currentTime < endSeconds;
-
+	$: editedText = text.trim();
 	function handleSeek() {
 		$playback.currentTime = startSeconds;
 		$playback.paused = false;
@@ -17,9 +30,8 @@
 	<span class="timestamp">
 		{start.hoursStr}:{start.minutesStr}:{start.secondsStr} → {end.hoursStr}:{end.minutesStr}:{end.secondsStr}
 	</span>
-	<span class="text">
-		{text}
-	</span>
+
+	<textarea class="text" style="height: {height}px" value={editedText} bind:this={textEl} />
 
 	<div class="menu">
 		<button class="line-button" on:click={handleSeek}>
@@ -68,6 +80,13 @@
 	.text {
 		color: var(--neutral-900);
 		flex-grow: 1;
+		display: inline-block;
+		appearance: none;
+		background: transparent;
+		border: 0;
+		font-size: 15px;
+		text-align: left;
+		resize: none;
 	}
 
 	.menu {
