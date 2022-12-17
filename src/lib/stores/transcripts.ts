@@ -6,6 +6,7 @@ import { createAudioUrlFromFile } from '$lib/util/files';
 import { parseRawOutput } from '$lib/util/timecode';
 import { save } from '$lib/util/persistance';
 import { debounce } from '$lib/util/debounce';
+import { playback } from './playback';
 
 type Transcripts = {
 	list: Map<string, Transcript>;
@@ -161,6 +162,10 @@ export const transcripts = createTranscripts();
  */
 export const active = derived(transcripts, ($t) => {
 	if (!$t.active) return null;
+	playback.update(($p) => ({
+		...$p,
+		currentTime: 0
+	}));
 	return $t.list.get($t.active) || null;
 });
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { devices } from '$lib/stores/devices';
 	import Check from 'svelte-icons/fa/FaCheck.svelte';
+	import { fade, fly } from 'svelte/transition';
 	import Button from './Button.svelte';
 	import Select from './Select.svelte';
 
@@ -8,7 +9,7 @@
 </script>
 
 {#if $devices.modalOpen}
-	<div class="device-selection-modal">
+	<div class="device-selection-modal" transition:fly={{ duration: 200 }}>
 		<h3 class="title">Select a recording device</h3>
 
 		<div class="fieldset">
@@ -26,11 +27,11 @@
 			</Button>
 		</div>
 	</div>
+	<div class="backdrop" transition:fade />
 {/if}
 
 <style>
 	.device-selection-modal {
-		width: 320px;
 		padding: 12px;
 		background: var(--neutral-400);
 		border: 1px solid var(--neutral-500);
@@ -39,6 +40,7 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+		z-index: 1;
 	}
 
 	.title {
@@ -49,5 +51,14 @@
 		display: flex;
 		flex-direction: row;
 		gap: 8px;
+	}
+
+	.backdrop {
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0.95;
+		background-color: var(--neutral-200);
 	}
 </style>
