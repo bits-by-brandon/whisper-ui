@@ -25,6 +25,27 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.0-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: install whisper (macOS)
+        if: matrix.platform == 'macos-latest'
+        run: |
+          git clone https://github.com/ggerganov/whisper.cpp
+          cd whisper.cpp
+          make
+          cp main ../src-tauri/binaries/whisper-x86_64-apple-darwin
+      - name: install whisper (ubuntu)
+        if: matrix.platform == 'ubuntu-20.04'
+        run: |
+          git clone https://github.com/ggerganov/whisper.cpp
+          cd whisper.cpp
+          make
+          cp main ../src-tauri/binaries/whisper-x86_64-unknown-gnu
+      - name: install whisper (windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          git clone https://github.com/ggerganov/whisper.cpp
+          cd whisper.cpp
+          make
+          cp main.exe ../src-tauri/binaries/whisper-x86_64-pc-windows-msvc.exe
       - name: install app dependencies and build it
         run: yarn && yarn build
       - uses: tauri-apps/tauri-action@v0
@@ -35,4 +56,4 @@ jobs:
           releaseName: 'App v__VERSION__'
           releaseBody: 'See the assets to download this version and install.'
           releaseDraft: true
-          prerelease: false
+          prerelease: true
