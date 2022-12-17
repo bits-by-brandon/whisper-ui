@@ -39,6 +39,7 @@ jobs:
           cd whisper.cpp
           make
           cp main ../src-tauri/binaries/whisper-x86_64-unknown-gnu
+          ls -la
       - name: install whisper (windows)
         if: matrix.platform == 'windows-latest'
         run: |
