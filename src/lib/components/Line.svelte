@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { playback } from '$lib/stores/playback';
 	import { parseRawOutput } from '$lib/util/timecode';
-	import Button from './Button.svelte';
 	import Play from 'svelte-icons/fa/FaPlay.svelte';
 	export let line: string;
 

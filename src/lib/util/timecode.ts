@@ -39,8 +39,8 @@ export function timeDataToSeconds(time: TimeData) {
 
 export function parseRawOutput(raw: string) {
 	const timestampRegex = /(\d\d):(\d\d):(\d\d)/g;
-	const timestamp = raw.split(']')[0];
-	const text = raw.split(']')[1].trim();
+	const timestamp = raw.substring(0, raw.indexOf(']'));
+	const text = raw.substring(raw.indexOf(']') + 1);
 	const match = [...timestamp.matchAll(timestampRegex)] || [];
 	const start = timecodeToTimeData(match[0]);
 	const end = timecodeToTimeData(match[1]);
