@@ -45,7 +45,7 @@ jobs:
           git clone https://github.com/ggerganov/whisper.cpp
           cd whisper.cpp
           make
-          ls -l
+          ls
           pwd
           cp main ../src-tauri/binaries/whisper-x86_64-pc-windows-msvc.exe
       - name: install app dependencies and build it
