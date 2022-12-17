@@ -28,7 +28,7 @@
 		if (!stream) {
 			// Select which audio source to record from
 			stream = await navigator.mediaDevices.getUserMedia({
-				audio: { deviceId: 'D0A12E908A371D259FC7CD80C07D28BBD2B9D425' }
+				audio: { deviceId: $devices.selectedDevice.deviceId }
 			});
 		}
 
