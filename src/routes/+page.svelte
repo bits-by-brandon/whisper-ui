@@ -1,21 +1,8 @@
 <script lang="ts">
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import ContentPane from '$lib/components/ContentPane.svelte';
-	import { onMount } from 'svelte';
 	import ControlPanel from '$lib/components/ControlPanel.svelte';
 	import DeviceSelectionModal from '$lib/components/DeviceSelectionModal.svelte';
-
-	onMount(() => {
-		document.addEventListener('copy', function (event) {
-			const selection = window.getSelection();
-			if (selection) {
-				const timestampRegex = /\d\d:\d\d:\d\d → \d\d:\d\d:\d\d/g;
-				const cleanText = selection.toString().replace(timestampRegex, '').replace(/\n\n/g, '\n');
-				event.clipboardData?.setData('text/plain', cleanText);
-				event.preventDefault();
-			}
-		});
-	});
 </script>
 
 <main>

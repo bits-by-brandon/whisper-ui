@@ -22,8 +22,8 @@
 	}
 </script>
 
-<div class="control-panel">
-	{#if $active && $active.status === 'transcribed'}
+{#if $active && $active.status === 'transcribed'}
+	<div class="control-panel">
 		<audio
 			src={$active.file.blobUrl || ''}
 			controls
@@ -48,8 +48,8 @@
 			<VTT slot="icon" />
 			Export vtt
 		</Button>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style>
 	.control-panel {
