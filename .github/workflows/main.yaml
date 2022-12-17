@@ -45,9 +45,9 @@ jobs:
           git clone https://github.com/ggerganov/whisper.cpp
           cd whisper.cpp
           make
-          cp main ../src-tauri/binaries/whisper-x86_64-pc-windows-msvc.exe
           ls -l
           pwd
+          cp main ../src-tauri/binaries/whisper-x86_64-pc-windows-msvc.exe
       - name: install app dependencies and build it
         run: yarn install --frozen-lockfile && yarn build
       - uses: tauri-apps/tauri-action@v0
