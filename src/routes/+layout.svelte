@@ -1,6 +1,6 @@
 <script>
-	import '../styles/app.css';
-	import '../styles/colors.css';
+	import '../styles/app.css?inline';
+	import '../styles/colors.css?inline';
 	import Titlebar from '$lib/components/Titlebar.svelte';
 	import { onMount } from 'svelte';
 	import { loadFromCache } from '$lib/util/persistance';
