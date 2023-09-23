@@ -65,7 +65,7 @@
 	}
 
 	.bar {
-		width: 2px;
+		width: 1px;
 		border-radius: 2px;
 		height: 100%;
 		background: var(--red-700);

@@ -2,14 +2,12 @@
 	import Sidebar from '$lib/components/Sidebar.svelte';
 	import ContentPane from '$lib/components/ContentPane.svelte';
 	import ControlPanel from '$lib/components/ControlPanel.svelte';
-	import DeviceSelectionModal from '$lib/components/DeviceSelectionModal.svelte';
 </script>
 
 <main>
 	<Sidebar />
 	<ContentPane />
 	<ControlPanel />
-	<DeviceSelectionModal />
 </main>
 
 <style>

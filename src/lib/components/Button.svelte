@@ -1,8 +1,11 @@
 <script lang="ts">
 	export let disabled: boolean = false;
+	export let domRect: DOMRect | undefined = undefined;
+	let el: HTMLButtonElement;
+	$: domRect = el?.getBoundingClientRect();
 </script>
 
-<button on:click {disabled}>
+<button on:click {disabled} bind:this={el}>
 	{#if $$slots.icon}
 		<span class="icon">
 			<slot name="icon" />
@@ -22,14 +25,14 @@
 		border-radius: 5px;
 		padding: 5px 8px;
 		cursor: pointer;
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
+		display: flex;
+		flex-direction: row;
+		align-items: baseline;
 		justify-content: flex-start;
 		min-height: 30px;
 		min-width: 32px;
 		white-space: nowrap;
-    gap: 6px;
+		gap: 6px;
 	}
 
 	button:hover {

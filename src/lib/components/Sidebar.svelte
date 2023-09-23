@@ -13,8 +13,9 @@
 	let dragCount = 0;
 	$: dragging = dragCount > 0;
 
-	let recording: boolean;
-	let stream: MediaStream | null;
+	let recording: boolean = false;
+	$: console.log('recording', recording);
+	let stream: MediaStream | null = null;
 
 	onMount(async () => {
 		return await appWindow.onFileDropEvent(async (event) => {
@@ -51,7 +52,7 @@
 <style>
 	.sidebar {
 		grid-area: side;
-		padding: 48px 12px;
+		padding: 42px 12px 48px;
 		background: var(--neutral-300);
 		border-right: 1px solid var(--neutral-400);
 		position: relative;

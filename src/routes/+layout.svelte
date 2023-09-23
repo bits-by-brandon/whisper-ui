@@ -9,6 +9,7 @@
 	onMount(async () => {
 		// Create any required directories
 		await Promise.all([ensureWaveDir(), ensureRecordingDir()]);
+
 		// Load the state
 		await loadFromCache();
 	});

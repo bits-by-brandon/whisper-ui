@@ -2,7 +2,7 @@ import { MediaFile } from '$lib/models/mediaFile';
 import { transcripts } from '$lib/stores/transcripts';
 import { fs } from '@tauri-apps/api';
 import { appCacheDir } from '@tauri-apps/api/path';
-import { ensureWaveDir, getWaveDir } from './fs';
+import { getWaveDir } from './fs';
 
 const SAVE_FILE = 'save-data.json';
 

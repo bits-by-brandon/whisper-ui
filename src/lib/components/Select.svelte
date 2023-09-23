@@ -16,6 +16,7 @@
 		color: var(--neutral-900);
 		flex-grow: 1;
 		font-size: 14px;
+		min-width: 120px;
 		height: 100%;
 		padding: 6px 24px 6px 8px;
 		appearance: none;
