@@ -17,6 +17,7 @@
 	$: audioDevices = $devices.availableDevices.filter((d) => d.kind === 'audioinput');
 	let recorder: MediaRecorder | null = null;
 	let recordedChunks: Blob[] = [];
+	let dataPollTimer: NodeJS.Timeout | null = null;
 
 	onMount(async () => {
 		if ($devices.availableDevices.length === 0) {
@@ -41,7 +42,7 @@
 			recorder = new MediaRecorder(stream, { mimeType: 'audio/mp4' });
 			recorder.addEventListener('dataavailable', handleDataAvailable);
 			recorder.addEventListener('stop', saveRecording);
-			setInterval(() => {
+			dataPollTimer = setInterval(() => {
 				if (recorder?.state === 'recording') {
 					recorder.requestData();
 				}
@@ -66,6 +67,7 @@
 	}
 
 	async function saveRecording() {
+		if (dataPollTimer) clearInterval(dataPollTimer);
 		if (recordedChunks.length === 0) throw Error('No data chunks to write');
 		const blob = new Blob(recordedChunks, { type: 'audio/mp4' });
 		recordedChunks = [];
