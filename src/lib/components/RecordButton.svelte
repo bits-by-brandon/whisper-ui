@@ -1,5 +1,8 @@
 <script lang="ts">
+	// @ts-ignore
 	import Microphone from 'svelte-icons/fa/FaMicrophone.svelte';
+	// @ts-ignore
+	import Stop from 'svelte-icons/fa/FaStop.svelte';
 	import Button from './Button.svelte';
 	import Flyout from './Flyout.svelte';
 	import RecordFlyout from './RecordFlyout.svelte';
@@ -15,9 +18,19 @@
 		recording = true;
 	}
 
+	function handleRecordStop() {
+		recording = false;
+		if (stream) {
+			const tracks = stream.getTracks();
+			tracks.forEach((track) => {
+				track.stop();
+			});
+		}
+	}
+
 	function handleMicrophoneButtonClick() {
 		if (recording) {
-			recording = false;
+			handleRecordStop();
 		} else {
 			modalOpen = !modalOpen;
 		}
@@ -26,7 +39,11 @@
 
 <Button on:click={handleMicrophoneButtonClick} bind:domRect={buttonDomRect}>
 	<span slot="icon" class="mic-icon" class:recording>
-		<Microphone />
+		{#if recording}
+			<Stop />
+		{:else}
+			<Microphone />
+		{/if}
 	</span>
 </Button>
 

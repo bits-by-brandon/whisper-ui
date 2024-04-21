@@ -6,5 +6,7 @@
 	<string>Request camera access for WebRTC</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Requesting microphone access to record audio for trasncriptions</string>
+	<key>AVCaptureDeviceTypeContinuityCamera</key>
+	<string>Requesting microphone access to record audio for trasncriptions</string>
 </dict>
 </plist>

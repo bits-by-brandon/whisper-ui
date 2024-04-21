@@ -5,6 +5,7 @@
 	import { getRecordingsDir } from '$lib/util/fs';
 	import { BaseDirectory, writeBinaryFile } from '@tauri-apps/api/fs';
 	import { createEventDispatcher, onMount } from 'svelte';
+	// @ts-ignore
 	import Check from 'svelte-icons/fa/FaCheck.svelte';
 	import Button from './Button.svelte';
 	import Select from './Select.svelte';
@@ -40,15 +41,20 @@
 			recorder = new MediaRecorder(stream, { mimeType: 'audio/mp4' });
 			recorder.addEventListener('dataavailable', handleDataAvailable);
 			recorder.addEventListener('stop', saveRecording);
+			setInterval(() => {
+				if (recorder?.state === 'recording') {
+					recorder.requestData();
+				}
+			}, 500);
 		}
 
 		if (recorder.state === 'recording') {
 			recorder.stop();
 		} else {
 			recorder.start();
+			dispatch('recordstart');
 		}
 
-		dispatch('recordstart');
 		// Reassign to force a re-render
 		recorder = recorder;
 	}
