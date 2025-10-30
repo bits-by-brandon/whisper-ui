@@ -1,5 +1,5 @@
 import { execa } from 'execa';
-import { renameSync } from 'fs';
+import { existsSync, renameSync } from 'fs';
 
 let extension = '';
 if (process.platform === 'win32') {
@@ -15,14 +15,14 @@ async function buildWhisper() {
 	await execa('make', undefined, { cwd: './whisper-cpp' });
 }
 
-function importModels() {
-	renameSync('whisper-cpp/models/ggml-base.en.bin', 'src-tauri/resources/models/ggml-base.en.bin');
-}
-
 async function main() {
-	await ensureDirectories();
-	await buildWhisper();
-	importModels();
+        await ensureDirectories();
+        await buildWhisper();
+        if (existsSync('whisper-cpp/models/ggml-base.en.bin')) {
+                renameSync('whisper-cpp/models/ggml-base.en.bin', 'src-tauri/resources/models/ggml-base.en.bin');
+        } else {
+                console.info('No prebuilt Whisper model found; runtime downloads will be used.');
+        }
 
 	const rustInfo = (await execa('rustc', ['-vV'])).stdout;
 	const targetTriple = /host: (\S+)/g.exec(rustInfo)[1];

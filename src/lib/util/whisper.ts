@@ -1,12 +1,12 @@
 import type { MediaFile } from '$lib/models/mediaFile';
-import { resolveResource } from '@tauri-apps/api/path';
 import { Command } from '@tauri-apps/api/shell';
+import { ensureModelForCurrentPlatform } from './models';
 
 /**
  * Runs the whisper model on a file and returns the output in vtt format
  */
 export async function loadTranscription(file: MediaFile): Promise<string[]> {
-	const modelPath = await resolveResource('resources/models/ggml-base.en.bin');
+        const modelPath = await ensureModelForCurrentPlatform();
 	const transcribe = Command.sidecar('binaries/whisper', [
 		'-m',
 		modelPath,
