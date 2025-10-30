@@ -6,9 +6,10 @@
 	import { appWindow } from '@tauri-apps/api/window';
 	import { transcripts } from '$lib/stores/transcripts';
 	import { MediaFile } from '$lib/models/mediaFile';
-	import TranscriptCard from './TranscriptCard.svelte';
-	import RecordButton from './RecordButton.svelte';
-	import Waveform from './Waveform.svelte';
+        import TranscriptCard from './TranscriptCard.svelte';
+        import RecordButton from './RecordButton.svelte';
+        import Waveform from './Waveform.svelte';
+        import ModelsButton from './ModelsButton.svelte';
 
 	let dragCount = 0;
 	$: dragging = dragCount > 0;
@@ -34,8 +35,9 @@
 <div class="sidebar" on:dragenter={() => (dragCount += 1)} on:dragleave={() => (dragCount -= 1)}>
 	<div class="menu">
 		<OpenFileButton />
-		<RecordButton bind:recording bind:stream />
-	</div>
+                <RecordButton bind:recording bind:stream />
+                <ModelsButton />
+        </div>
 	<ul class="transcripts">
 		{#each Array.from($transcripts.list) as [filename, transcript] (filename)}
 			<li animate:flip={{ duration: 300, delay: 300 }}><TranscriptCard {transcript} /></li>
