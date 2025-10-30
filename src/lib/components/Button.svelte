@@ -26,9 +26,9 @@
 		padding: 5px 8px;
 		cursor: pointer;
 		display: flex;
-		flex-direction: row;
-		align-items: baseline;
-		justify-content: flex-start;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
 		min-height: 30px;
 		min-width: 32px;
 		white-space: nowrap;
@@ -39,9 +39,11 @@
 		background-color: var(--neutral-500);
 	}
 
-	.icon {
-		height: 12px;
-		width: 12px;
-		transform: translateY(1px);
-	}
+        .icon {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                height: 12px;
+                width: 12px;
+        }
 </style>
